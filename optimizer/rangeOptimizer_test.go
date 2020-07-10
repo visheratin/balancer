@@ -1,11 +1,12 @@
 package optimizer
 
 import (
-	"github.com/stretchr/testify/assert"
-	balancer "github.com/struckoff/SFCFramework"
-	"github.com/struckoff/SFCFramework/curve"
-	"github.com/struckoff/SFCFramework/mocks"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
+	balancer "github.com/visheratin/balancer"
+	"github.com/visheratin/balancer/curve"
+	"github.com/visheratin/balancer/mocks"
 )
 
 func TestRangeOptimizer(t *testing.T) {

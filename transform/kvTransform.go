@@ -2,7 +2,8 @@ package transform
 
 import (
 	"errors"
-	"github.com/struckoff/SFCFramework/curve"
+
+	"github.com/visheratin/balancer/curve"
 )
 
 func KVTransform(values []interface{}, sfc curve.Curve) ([]uint64, error) {

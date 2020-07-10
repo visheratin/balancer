@@ -5,8 +5,8 @@ import (
 	"math/rand"
 
 	"github.com/fogleman/gg"
-	"github.com/struckoff/SFCFramework/curve/hilbert"
-	"github.com/struckoff/SFCFramework/curve/morton"
+	"github.com/visheratin/balancer/curve/hilbert"
+	"github.com/visheratin/balancer/curve/morton"
 )
 
 //Curve is an interface of space filling curve realisation.

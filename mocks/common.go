@@ -1,8 +1,9 @@
 package mocks
 
 import (
-	"github.com/struckoff/SFCFramework"
 	"strconv"
+
+	"github.com/visheratin/balancer"
 )
 
 // MockNode is Node implementation used for testing.

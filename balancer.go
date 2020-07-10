@@ -4,7 +4,7 @@ import (
 	"errors"
 	"reflect"
 
-	"github.com/struckoff/SFCFramework/curve"
+	"github.com/visheratin/balancer/curve"
 )
 
 // Balancer is responsible for distributing load between nodes of the cluster. It stores

@@ -1,10 +1,11 @@
 package optimizer
 
 import (
-	"github.com/pkg/errors"
-	balancer "github.com/struckoff/SFCFramework"
 	"math"
 	"sort"
+
+	"github.com/pkg/errors"
+	balancer "github.com/visheratin/balancer"
 )
 
 func RangeOptimizer(s *balancer.Space) (res []*balancer.CellGroup, err error) {

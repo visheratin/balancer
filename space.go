@@ -1,12 +1,13 @@
 package balancer
 
 import (
-	"github.com/pkg/errors"
 	"math"
 	"sort"
 	"sync"
 
-	"github.com/struckoff/SFCFramework/curve"
+	"github.com/pkg/errors"
+
+	"github.com/visheratin/balancer/curve"
 )
 
 type SpaceInterface interface {
