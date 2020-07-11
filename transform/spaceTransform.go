@@ -2,7 +2,8 @@ package transform
 
 import (
 	"errors"
-	"github.com/struckoff/SFCFramework/curve"
+
+	"github.com/visheratin/balancer/curve"
 )
 
 const ft = 1609459200
@@ -11,7 +12,7 @@ const lonStep = 180.0
 
 func SpaceTransform(values []interface{}, sfc curve.Curve) ([]uint64, error) {
 	dimSize := sfc.DimensionSize()
-	if len(values) != 2 || sfc.Dimensions() != 2{
+	if len(values) != 2 || sfc.Dimensions() != 2 {
 		return nil, errors.New("number of dimensions must be 2")
 	}
 	res := make([]uint64, 3)

@@ -1,10 +1,11 @@
 package optimizer
 
 import (
-	"github.com/pkg/errors"
-	balancer "github.com/struckoff/SFCFramework"
 	"math"
 	"sort"
+
+	"github.com/pkg/errors"
+	balancer "github.com/visheratin/balancer"
 )
 
 func RangeOptimizer(s *balancer.Space) (res []*balancer.CellGroup, err error) {
@@ -15,7 +16,7 @@ func RangeOptimizer(s *balancer.Space) (res []*balancer.CellGroup, err error) {
 	}
 	var max, min uint64
 
-	sort.Slice(cgs, func(i, j int) bool { return cgs[i].Node().Hash() < cgs[j].Node().Hash() })
+	sort.Slice(cgs, func(i, j int) bool { return cgs[i].Node().ID() < cgs[j].Node().ID() })
 
 	for iter := 0; iter < len(cgs); iter++ {
 		min = max

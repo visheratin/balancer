@@ -1,9 +1,10 @@
 package transform
 
 import (
-	"github.com/struckoff/SFCFramework/curve"
 	"reflect"
 	"testing"
+
+	"github.com/visheratin/balancer/curve"
 )
 
 func valuesConv(vals ...interface{}) []interface{} {

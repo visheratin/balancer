@@ -1,8 +1,8 @@
 package balancer
 
 import (
-	"github.com/struckoff/SFCFramework/curve"
-	"github.com/struckoff/SFCFramework/transform"
+	"github.com/visheratin/balancer/curve"
+	"github.com/visheratin/balancer/transform"
 )
 
 func NewMockSpace(cgs []*CellGroup, sfc curve.Curve) *Space {

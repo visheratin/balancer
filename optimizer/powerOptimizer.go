@@ -1,7 +1,7 @@
 package optimizer
 
 import (
-	"github.com/struckoff/SFCFramework"
+	"github.com/visheratin/balancer"
 )
 
 func PowerOptimizer(s *balancer.Space) (res []*balancer.CellGroup, err error) {
