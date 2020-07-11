@@ -103,12 +103,22 @@ func (s *Space) TotalLoad() uint64 {
 	return s.load
 }
 
-//TotalPower returns the sum of the all node powers in the space.
+// TotalPower returns the sum of the all node powers in the space.
 func (s *Space) TotalPower() (power float64) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 	for iter := range s.cgs {
 		power += s.cgs[iter].node.Power().Get()
+	}
+	return
+}
+
+// TotalCapacity returns the sum of the all node capacities in the space.
+func (s *Space) TotalCapacity() (cap float64) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	for iter := range s.cgs {
+		cap += s.cgs[iter].node.Capacity().Get()
 	}
 	return
 }
@@ -208,7 +218,36 @@ func (s *Space) removeNode(id string) error {
 	return errors.Errorf("node(%s) not found", id)
 }
 
-//LocateData add data item to the space.
+// AddData adds data item to the space.
+func (s *Space) AddData(d DataItem) (Node, error) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	return s.addData(d)
+}
+
+func (s *Space) addData(d DataItem) (Node, error) {
+	if len(s.cgs) == 0 {
+		return nil, errors.New("no nodes in the cluster")
+	}
+	cID, err := s.cellID(d)
+	if err != nil {
+		return nil, err
+	}
+	if _, ok := s.cells[cID]; !ok {
+		cg, ok := s.findCellGroup(cID)
+		if !ok {
+			return nil, errors.Errorf("unable to bind cell to cell group (cID=%v  d=%s)", cID, d.ID())
+		}
+		s.cells[cID] = NewCell(cID, cg, 0)
+	}
+	if err = s.cells[cID].add(d); err != nil {
+		return nil, err
+	}
+	s.load += s.cells[cID].load //TODO May be just sum CellGroup.load ?
+	return s.cells[cID].cg.Node(), nil
+}
+
+// LocateData returns node for the data item.
 func (s *Space) LocateData(d DataItem) (Node, error) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
@@ -230,10 +269,6 @@ func (s *Space) locateData(d DataItem) (Node, error) {
 		}
 		s.cells[cID] = NewCell(cID, cg, 0)
 	}
-	if err = s.cells[cID].add(d); err != nil {
-		return nil, err
-	}
-	s.load += s.cells[cID].load //TODO May be just sum CellGroup.load ?
 	return s.cells[cID].cg.Node(), nil
 }
 

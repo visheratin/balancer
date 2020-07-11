@@ -16,7 +16,7 @@ func RangeOptimizer(s *balancer.Space) (res []*balancer.CellGroup, err error) {
 	}
 	var max, min uint64
 
-	sort.Slice(cgs, func(i, j int) bool { return cgs[i].Node().Hash() < cgs[j].Node().Hash() })
+	sort.Slice(cgs, func(i, j int) bool { return cgs[i].Node().ID() < cgs[j].Node().ID() })
 
 	for iter := 0; iter < len(cgs); iter++ {
 		min = max

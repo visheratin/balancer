@@ -88,18 +88,26 @@ func (b *Balancer) RemoveNode(id string) error {
 	return nil
 }
 
-// LocateData loads data into the Space of the balancer.
+// AddData loads data into the Space of the balancer.
+func (b *Balancer) AddData(d DataItem) (Node, error) {
+	return b.space.AddData(d)
+}
+
+// LocateData returns the node for specified data item.
 func (b *Balancer) LocateData(d DataItem) (Node, error) {
 	return b.space.LocateData(d)
 }
 
-func (b *Balancer) Optimize() error {
+func (b *Balancer) Optimize() ([]*CellGroup, error) {
 	ns, err := b.of(b.space)
 	if err != nil {
-		return err
+		return nil, err
 	}
+	return ns, nil
+}
+
+func (b *Balancer) Apply(ns []*CellGroup) {
 	b.space.cgs = ns
-	return nil
 }
 
 func Log2(n uint64) (p uint64, err error) {
