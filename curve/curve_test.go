@@ -47,7 +47,7 @@ func TestDrawSplitCurve(t *testing.T) {
 	type args struct {
 		cType  CurveType
 		bits   uint64
-		splits []float64
+		splits []uint64
 		op     string
 	}
 	tests := []struct {
@@ -60,8 +60,7 @@ func TestDrawSplitCurve(t *testing.T) {
 			args: args{
 				cType:  Hilbert,
 				bits:   8,
-				splits: []float64{0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0},
-				op:     "hilbert-split.png",
+				splits: []uint64{512, 2048, 10196, 32075, 50000, 65535},
 			},
 			wantErr: false,
 		},
@@ -70,15 +69,18 @@ func TestDrawSplitCurve(t *testing.T) {
 			args: args{
 				cType:  Morton,
 				bits:   8,
-				splits: []float64{0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0},
-				op:     "morton-split.png",
+				splits: []uint64{512, 2048, 10196, 32075, 50000, 65535},
 			},
 			wantErr: false,
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if err := DrawSplitCurve(tt.args.cType, tt.args.bits, tt.args.splits, tt.args.op); (err != nil) != tt.wantErr {
+			c, err := NewCurve(tt.args.cType, 2, tt.args.bits)
+			if err != nil {
+				t.Fatal(err)
+			}
+			if _, err := DrawSplitCurve(c, tt.args.splits); (err != nil) != tt.wantErr {
 				t.Errorf("DrawSplitCurve() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})
