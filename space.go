@@ -137,11 +137,11 @@ func (s *Space) Len() int {
 	return len(s.cgs)
 }
 
-// TotalCells returns maximum number of cell which could be located in space
+// TotalCells returns maximum number of cells which could be located in space
 func (s *Space) TotalCells() uint64 {
 	s.mu.Lock()
 	defer s.mu.Unlock()
-	return s.sfc.Length()
+	return s.sfc.Length() + 1
 }
 
 // AddNode adds a new node to the space.

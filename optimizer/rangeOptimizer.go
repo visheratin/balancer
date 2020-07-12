@@ -19,7 +19,7 @@ func RangeOptimizer(s *balancer.Space) (res []*balancer.CellGroup, err error) {
 	for iter := 0; iter < len(cgs); iter++ {
 		min = max
 		p := cgs[iter].Node().Power().Get() / totalPower
-		max = min + uint64(math.Round(float64(s.TotalCells())*p))
+		max = min + uint64(math.Ceil(float64(s.TotalCells())*p))
 		if err := cgs[iter].SetRange(min, max); err != nil {
 			return nil, errors.Wrap(err, "range optimizer error")
 		}
