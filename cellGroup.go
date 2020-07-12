@@ -1,8 +1,9 @@
 package balancer
 
 import (
-	"github.com/pkg/errors"
 	"sync"
+
+	"github.com/pkg/errors"
 )
 
 type CellGroup struct {
@@ -58,7 +59,7 @@ func (cg *CellGroup) SetRange(min, max uint64) error {
 	return nil
 }
 
-func (cg *CellGroup) FitsRange(index uint64) bool {
+func (cg *CellGroup) InRange(index uint64) bool {
 	cg.mu.Lock()
 	defer cg.mu.Unlock()
 	return index >= cg.cRange.Min && index < cg.cRange.Max
@@ -91,6 +92,10 @@ func (cg *CellGroup) AddCell(c *cell, autoremove bool) {
 func (cg *CellGroup) RemoveCell(id uint64) {
 	cg.mu.Lock()
 	defer cg.mu.Unlock()
+	c, ok := cg.cells[id]
+	if ok {
+		cg.load -= c.load
+	}
 	delete(cg.cells, id)
 }
 

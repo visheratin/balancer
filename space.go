@@ -130,21 +130,21 @@ func (s *Space) SetGroups(groups []*CellGroup) {
 	s.cgs = groups
 }
 
-//Len returns the number of CellGroups in the space.
+// Len returns the number of CellGroups in the space.
 func (s *Space) Len() int {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 	return len(s.cgs)
 }
 
-//Capacity returns maximum number of cell which could be located in space
-func (s *Space) Capacity() uint64 {
+// TotalCells returns maximum number of cell which could be located in space
+func (s *Space) TotalCells() uint64 {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 	return s.sfc.Length()
 }
 
-//AddNode adds a new node to the space.
+// AddNode adds a new node to the space.
 func (s *Space) AddNode(n Node) error {
 	s.mu.Lock()
 	defer s.mu.Unlock()
@@ -243,7 +243,7 @@ func (s *Space) addData(d DataItem) (Node, error) {
 	if err = s.cells[cID].add(d); err != nil {
 		return nil, err
 	}
-	s.load += s.cells[cID].load //TODO May be just sum CellGroup.load ?
+	s.load += d.Size()
 	return s.cells[cID].cg.Node(), nil
 }
 
@@ -292,7 +292,7 @@ func (s *Space) cellID(d DataItem) (uint64, error) {
 
 func (s *Space) findCellGroup(cID uint64) (cg *CellGroup, ok bool) {
 	for iter := range s.cgs {
-		if s.cgs[iter].FitsRange(cID) {
+		if s.cgs[iter].InRange(cID) {
 			return s.cgs[iter], true
 		}
 	}
